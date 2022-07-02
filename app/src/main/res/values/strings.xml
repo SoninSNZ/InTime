@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name" translatable="false">InTime</string>
+    <string name="upcoming_events">Upcoming events</string>
+    <string name="todo">Todo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+</resources>
