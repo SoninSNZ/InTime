@@ -13,7 +13,7 @@
     app:cardBackgroundColor="@color/yellow">
 
     <TextView
-        android:id="@+id/favoriteItemText"
+        android:id="@+id/todo_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24sp"

@@ -6,16 +6,20 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import ru.taponapp.intime.R
 import ru.taponapp.intime.adapters.MainAdapter
-import ru.taponapp.intime.data.SavedData
-import ru.taponapp.intime.interfaces.Database
-
+import ru.taponapp.intime.models.MainViewModel
 
 class MainFragment: Fragment() {
     private val mAdapter = MainAdapter()
+
+    //TODO: replace ViewModelProviders
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProviders.of(this).get(MainViewModel::class.java)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,19 +30,25 @@ class MainFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val fragmentView = inflater.inflate(R.layout.fragment_main, container, false)
+        val mainFragmentView = inflater.inflate(R.layout.fragment_main, container, false)
 
-        val recyclerViewMain: RecyclerView = fragmentView.findViewById(R.id.recyclerViewMain)
-        recyclerViewMain.layoutManager =
+        val mainRecyclerView: RecyclerView = mainFragmentView.findViewById(R.id.main_recycler_view)
+        mainRecyclerView.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        recyclerViewMain.adapter = mAdapter
+        mainRecyclerView.adapter = mAdapter
 
-        val button: ImageButton = fragmentView.findViewById(R.id.mainButton)
+        val button: ImageButton = mainFragmentView.findViewById(R.id.mainButton)
         button.setOnClickListener {
             mAdapter.addItem()
         }
 
-        return fragmentView
+        return mainFragmentView
+    }
+
+    companion object {
+        fun newInstance(): MainFragment {
+            return MainFragment()
+        }
     }
 
 }

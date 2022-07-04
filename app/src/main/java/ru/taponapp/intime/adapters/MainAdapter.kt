@@ -6,10 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import ru.taponapp.intime.R
-import ru.taponapp.intime.data.SavedData
 import ru.taponapp.intime.models.*
 import java.lang.Exception
-
 
 class MainAdapter: RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     private val NO_ITEM_TYPE: Int = 0
@@ -18,7 +16,7 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     private val FAVORITE_HEADER_TYPE: Int = 3
     private val FAVORITE_ITEM_TYPE: Int = 4
 
-    private var mItemList: MutableList<Item> = SavedData().getItemsList()
+    private var mItemList: MutableList<Item> = MainViewModel().getItemslist()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -65,8 +63,8 @@ class MainAdapter: RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     }
 
     class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val eventItemText: TextView? = itemView.findViewById(R.id.eventItemText)
-        private val favoriteItemText: TextView? = itemView.findViewById(R.id.favoriteItemText)
+        private val eventItemText: TextView? = itemView.findViewById(R.id.event_text)
+        private val favoriteItemText: TextView? = itemView.findViewById(R.id.todo_text)
         private lateinit var item: Item
 
         fun bind(item: Item) {
