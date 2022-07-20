@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/event_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/event_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:hint="Date"/>
+
+    <EditText
+        android:id="@+id/event_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:hint="Time"/>
+
+    <Button
+        android:id="@+id/btn_save_new_event"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="16dp"
+        android:textSize="24sp"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="@color/yellow"
+        android:text="save"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
