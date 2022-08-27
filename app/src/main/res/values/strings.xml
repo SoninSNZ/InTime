@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name" translatable="false">InTime</string>
-    <string name="upcoming_events">Upcoming events</string>
-    <string name="todo">Todo</string>
+    <string name="upcoming_events">Events</string>
+    <string name="notes">Notes</string>
+    <string name="title">Title</string>
+    <string name="write_short_title">Write a short title</string>
+    <string name="text">Text</string>
+    <string name="my_note_text">My note</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

@@ -20,5 +20,5 @@
         android:textColor="@color/black"
         android:textSize="24sp"
         android:layout_marginBottom="4dp"
-        android:text="@string/todo" />
+        android:text="@string/notes" />
 </com.google.android.material.card.MaterialCardView>

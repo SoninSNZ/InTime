@@ -3,32 +3,44 @@ package ru.taponapp.intime.repositories
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.Room
-import ru.taponapp.intime.database.EventDatabase
+import ru.taponapp.intime.database.EventsRoomDatabase
 import ru.taponapp.intime.models.Event
 import java.lang.IllegalStateException
-import java.util.*
 import java.util.concurrent.Executors
 
-private const val DATABASE_NAME = "main_database"
+private const val DATABASE_NAME = "events_database"
 
-class EventRepository private constructor(context: Context) {
+class EventsRepository private constructor(context: Context) {
 
-    private val database: EventDatabase = Room.databaseBuilder(
+    private val eventsDatabase: EventsRoomDatabase = Room.databaseBuilder(
         context.applicationContext,
-        EventDatabase::class.java,
+        EventsRoomDatabase::class.java,
         DATABASE_NAME
-    ).build()
+    ).fallbackToDestructiveMigration()
+        .build()
 
-    private val eventDao = database.eventDao()
+    private val eventDao = eventsDatabase.eventDao()
     private val executor = Executors.newSingleThreadExecutor()
 
     fun getEvents(): LiveData<List<Event>> = eventDao.getEvents()
 
-    fun getEvent(id: UUID): LiveData<Event?> = eventDao.getEvent(id)
+    fun getEvent(id: Int): LiveData<Event> = eventDao.getEvent(id)
 
     fun addEvent(event: Event) {
         executor.execute {
             eventDao.addEvent(event)
+        }
+    }
+
+    fun updateEvent(event: Event) {
+        executor.execute {
+            eventDao.updateEvent(event)
+        }
+    }
+
+    fun deleteEvent(event: Event) {
+        executor.execute {
+            eventDao.deleteEvent(event)
         }
     }
 
@@ -39,15 +51,15 @@ class EventRepository private constructor(context: Context) {
     }
 
     companion object {
-        private var INSTANCE: EventRepository? = null
+        private var INSTANCE: EventsRepository? = null
 
         fun initialize(context: Context) {
             if (INSTANCE == null) {
-                INSTANCE = EventRepository(context)
+                INSTANCE = EventsRepository(context)
             }
         }
 
-        fun get(): EventRepository {
+        fun getInstance(): EventsRepository {
             return INSTANCE ?:
             throw IllegalStateException("EventRepository is not initialized")
         }

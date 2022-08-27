@@ -1,4 +1,4 @@
 package ru.taponapp.intime.adapters
 
-class SearchAdapter {
+class PlacesAdapter {
 }

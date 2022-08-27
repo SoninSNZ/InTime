@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="upcoming_events">Ближайшие события</string>
-    <string name="todo">Мои места</string>
+    <string name="upcoming_events">События</string>
+    <string name="notes">Заметки</string>
+    <string name="title">Заголовок</string>
+    <string name="write_short_title">Короткий заголовок</string>
+    <string name="text">Текст</string>
+    <string name="my_note_text">Моя заметка</string>
 </resources>

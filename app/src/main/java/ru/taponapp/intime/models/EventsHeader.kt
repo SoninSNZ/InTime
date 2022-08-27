@@ -1,3 +1,3 @@
 package ru.taponapp.intime.models
 
-class TodoHeader : Item()
+class EventsHeader : Item()

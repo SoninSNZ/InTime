@@ -29,6 +29,16 @@
                 android:contentDescription="Add" />
 
             <ImageButton
+                android:id="@+id/add_note_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/yellow"
+                android:layout_gravity="end"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_test_add"
+                android:contentDescription="Add" />
+
+            <ImageButton
                 android:id="@+id/delete_event_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
