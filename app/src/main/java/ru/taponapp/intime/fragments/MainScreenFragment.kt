@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.ImageButton
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.taponapp.intime.R
 import ru.taponapp.intime.adapters.MainAdapter
 import ru.taponapp.intime.models.EventsHeader
@@ -25,19 +28,41 @@ class MainScreenFragment: Fragment() {
         fun onOpenNoteDetails(id: Int?)
     }
 
-    private val mainViewModel: MainViewModel by lazy {
-        ViewModelProvider(this).get(MainViewModel::class.java)
-    }
-
     private val itemsList: MutableList<Item> = emptyList<Item>().toMutableList()
     private val eventsList: MutableList<Item> = emptyList<Item>().toMutableList()
     private val notesList: MutableList<Item> = emptyList<Item>().toMutableList()
 
     private var callbacks: Callbacks? = null
 
-    lateinit var mainScreenRecyclerView: RecyclerView
+    private val mainViewModel: MainViewModel by lazy {
+        ViewModelProvider(this).get(MainViewModel::class.java)
+    }
+
+    private lateinit var mainScreenRecyclerView: RecyclerView
     private lateinit var mAdapter: MainAdapter
 
+    private lateinit var createFAB: FloatingActionButton
+    private lateinit var newEventFAB: FloatingActionButton
+    private lateinit var newNoteFAB: FloatingActionButton
+
+
+    private var isCreateBtnOpend = false
+
+    private val openAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim)
+    }
+
+    private val closeAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(context, R.anim.rotate_close_anim)
+    }
+
+    private val showButtonAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(context, R.anim.show_btns_anim)
+    }
+
+    private val hideButtonAnimation: Animation by lazy {
+        AnimationUtils.loadAnimation(context, R.anim.hide_btns_anim)
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -53,25 +78,23 @@ class MainScreenFragment: Fragment() {
         val mainFragmentView = inflater.inflate(R.layout.fragment_main_screen, container, false)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
+        createFAB = mainFragmentView.findViewById(R.id.create_btn)
+        newEventFAB = mainFragmentView.findViewById(R.id.new_event_btn)
+        newNoteFAB = mainFragmentView.findViewById(R.id.new_note_btn)
+
         mainScreenRecyclerView = mainFragmentView.findViewById(R.id.main_recycler_view)
         mainScreenRecyclerView.layoutManager = layoutManager
         mainScreenRecyclerView.adapter = mAdapter
 
-        val button_event: ImageButton = mainFragmentView.findViewById(R.id.add_event_button)
-        button_event.setOnClickListener {
-            callbacks?.onOpenEventDetails(null)
-        }
-
-        val button_note: ImageButton = mainFragmentView.findViewById(R.id.add_note_button)
-        button_note.setOnClickListener {
-            callbacks?.onOpenNoteDetails(null)
-        }
-
-        val buttonDel: ImageButton = mainFragmentView.findViewById(R.id.delete_event_button)
-        buttonDel.setOnClickListener {
+        val deleteBtn: ImageButton = mainFragmentView.findViewById(R.id.delete_event_button)
+        deleteBtn.setOnClickListener {
             mainViewModel.deleteEvents()
             mainViewModel.deleteNotes()
         }
+
+        isCreateBtnOpend = false
+        newEventFAB.visibility = View.GONE
+        newNoteFAB.visibility = View.GONE
 
         return mainFragmentView
     }
@@ -83,7 +106,7 @@ class MainScreenFragment: Fragment() {
             Observer { events ->
                 eventsList.clear()
                 eventsList.addAll(events)
-                updateUI(createItemsList())
+                updateList(createItemsList())
             }
         )
 
@@ -93,10 +116,24 @@ class MainScreenFragment: Fragment() {
                 notes.let {
                     notesList.clear()
                     notesList.addAll(notes)
-                    updateUI(createItemsList())
+                    updateList(createItemsList())
                 }
             }
         )
+
+        createFAB.setOnClickListener {
+            setAnimation()
+            setVisibility()
+            isCreateBtnOpend = !isCreateBtnOpend
+        }
+
+        newEventFAB.setOnClickListener {
+            callbacks?.onOpenEventDetails(null)
+        }
+
+        newNoteFAB.setOnClickListener {
+            callbacks?.onOpenNoteDetails(null)
+        }
     }
 
     override fun onDetach() {
@@ -104,7 +141,7 @@ class MainScreenFragment: Fragment() {
         callbacks = null
     }
 
-    fun createItemsList(): MutableList<Item> {
+    private fun createItemsList(): MutableList<Item> {
         itemsList.clear()
         if (!eventsList.isEmpty()) {
             itemsList.add(EventsHeader())
@@ -117,9 +154,32 @@ class MainScreenFragment: Fragment() {
         return itemsList
     }
 
-    fun updateUI(items: MutableList<Item>) {
+    private fun updateList(items: MutableList<Item>) {
         mAdapter = MainAdapter(itemsList = items)
         mainScreenRecyclerView.adapter = mAdapter
+    }
+
+    private fun setAnimation() {
+        if (isCreateBtnOpend == false) {
+            createFAB.startAnimation(openAnimation)
+            newEventFAB.startAnimation(showButtonAnimation)
+            newNoteFAB.startAnimation(showButtonAnimation)
+        } else {
+            createFAB.startAnimation(closeAnimation)
+            newEventFAB.startAnimation(hideButtonAnimation)
+            newNoteFAB.startAnimation(hideButtonAnimation)
+        }
+    }
+
+    private fun setVisibility() {
+        if (isCreateBtnOpend == false) {
+            newEventFAB.visibility = View.VISIBLE
+            newNoteFAB.visibility = View.VISIBLE
+
+        } else {
+            newEventFAB.visibility = View.GONE
+            newNoteFAB.visibility = View.GONE
+        }
     }
 
     companion object {

@@ -6,5 +6,6 @@
     <string name="write_short_title">Write a short title</string>
     <string name="text">Text</string>
     <string name="my_note_text">My note</string>
+    <string name="details">Details</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

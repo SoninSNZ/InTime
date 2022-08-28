@@ -46,11 +46,11 @@ class MainActivity :
             .commit()
     }
 
-    override fun onMainScreenEventSelected(id: Int) {
+    override fun onEventSelected(id: Int) {
         onOpenEventDetails(id)
     }
 
-    override fun onMainScreenNoteSelected(id: Int) {
+    override fun onNoteSelected(id: Int) {
         onOpenNoteDetails(id)
     }
 }

@@ -6,8 +6,16 @@
     android:orientation="vertical"
     android:layout_marginHorizontal="16dp">
 
-    <include layout="@layout/field_title"/>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        layout="@layout/field_title"/>
 
-    <include layout="@layout/field_text"/>
+    <include
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
+        layout="@layout/field_text"/>
 
 </LinearLayout>

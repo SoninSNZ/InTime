@@ -6,4 +6,5 @@
     <string name="write_short_title">Короткий заголовок</string>
     <string name="text">Текст</string>
     <string name="my_note_text">Моя заметка</string>
+    <string name="details">Детали</string>
 </resources>

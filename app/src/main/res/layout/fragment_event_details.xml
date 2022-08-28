@@ -8,15 +8,18 @@
     android:orientation="vertical">
 
     <include
-        android:id="@+id/include"
+        android:id="@+id/event_details_title_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="0dp"
         layout="@layout/field_title" />
 
     <FrameLayout
         android:id="@+id/event_date_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/event_details_title_field"
         app:layout_constraintStart_toStartOf="parent">
         <include layout="@layout/field_date_pick" />
     </FrameLayout>
@@ -25,10 +28,18 @@
         android:id="@+id/event_time_field"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintTop_toBottomOf="@+id/include"
+        android:layout_marginTop="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/event_details_title_field"
         app:layout_constraintEnd_toEndOf="parent">
         <include layout="@layout/field_time_pick" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/event_details_details_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/event_date_field">
+        <include layout="@layout/field_details" />
     </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,8 +3,6 @@ package ru.taponapp.intime.adapters
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.marginBottom
-import androidx.core.view.marginTop
 import androidx.recyclerview.widget.RecyclerView
 import ru.taponapp.intime.R
 import ru.taponapp.intime.models.*
@@ -13,8 +11,8 @@ import kotlin.Exception
 class MainAdapter(itemsList: MutableList<Item>): RecyclerView.Adapter<MainViewHolder>() {
 
     interface Callbacks {
-        fun onMainScreenEventSelected(id: Int)
-        fun onMainScreenNoteSelected(id: Int)
+        fun onEventSelected(id: Int)
+        fun onNoteSelected(id: Int)
     }
 
     private val NO_ITEM_TYPE: Int = 0
@@ -69,8 +67,8 @@ class MainAdapter(itemsList: MutableList<Item>): RecyclerView.Adapter<MainViewHo
         val item = mItemList[position]
         if(item is Event || item is Note) {
             holder.itemView.setOnClickListener {
-                if (item is Event) (it.context as Callbacks).onMainScreenEventSelected(item.id)
-                if (item is Note) (it.context as Callbacks).onMainScreenNoteSelected(item.id)
+                if (item is Event) (it.context as Callbacks).onEventSelected(item.id)
+                if (item is Note) (it.context as Callbacks).onNoteSelected(item.id)
             }
             holder.bind(item)
         }
