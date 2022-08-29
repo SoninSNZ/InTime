@@ -7,4 +7,9 @@
     <string name="text">Текст</string>
     <string name="my_note_text">Моя заметка</string>
     <string name="details">Детали</string>
+    <string name="delete_event_title">Событие будет удалено</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="delete_note_title">Note will be deleted</string>
+    <string name="confirm_delete_message">Вы уверены?</string>
 </resources>

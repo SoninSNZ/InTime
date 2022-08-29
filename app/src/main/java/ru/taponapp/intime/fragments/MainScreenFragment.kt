@@ -85,12 +85,6 @@ class MainScreenFragment: Fragment() {
         mainScreenRecyclerView.layoutManager = layoutManager
         mainScreenRecyclerView.adapter = mAdapter
 
-        val deleteBtn: ImageButton = mainFragmentView.findViewById(R.id.delete_event_button)
-        deleteBtn.setOnClickListener {
-            mainViewModel.deleteEvents()
-            mainViewModel.deleteNotes()
-        }
-
         isCreateFabOpened = false
         newEventFab.visibility = View.GONE
         newNoteFab.visibility = View.GONE

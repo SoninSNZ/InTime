@@ -1,5 +1,6 @@
 package ru.taponapp.intime.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,9 +10,12 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.taponapp.intime.R
 import ru.taponapp.intime.models.Event
 import ru.taponapp.intime.models.EventDetailsViewModel
@@ -38,6 +42,7 @@ class EventDetailsFragment : Fragment(),
     private lateinit var timeField: FrameLayout
     private lateinit var timeText: TextView
     private lateinit var detailsText: TextView
+    private lateinit var deleteEventFab: FloatingActionButton
     private val calendar = Calendar.getInstance()
     private val fullDateFormat = SimpleDateFormat(FULL_DATE_PATTERN)
     private val shortDateFormat = SimpleDateFormat(SHORT_DATE_PATTERN)
@@ -66,6 +71,7 @@ class EventDetailsFragment : Fragment(),
         timeField = eventFragmentView.findViewById(R.id.event_time_field)
         timeText = eventFragmentView.findViewById(R.id.event_time_text)
         detailsText = eventFragmentView.findViewById(R.id.event_details_text)
+        deleteEventFab = eventFragmentView.findViewById(R.id.delete_event_fab)
         return eventFragmentView
     }
 
@@ -127,6 +133,21 @@ class EventDetailsFragment : Fragment(),
             TimePickerFragment().apply {
                 setTargetFragment(this@EventDetailsFragment, REQUEST_TIME)
                     show(this@EventDetailsFragment.parentFragmentManager, DIALOG_TIME)
+            }
+        }
+
+        deleteEventFab.setOnClickListener {
+            MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogStyle).apply {
+                setTitle(R.string.delete_event_title)
+                setMessage(R.string.confirm_delete_message)
+                setPositiveButton(R.string.yes) { dialog, which ->
+                    parentFragmentManager.popBackStack()
+                    eventDetailsViewModel.deleteEvent(event)
+                }
+                setNegativeButton(R.string.no) { dialog, which ->
+                    dialog.cancel()
+                }
+                show()
             }
         }
     }

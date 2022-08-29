@@ -22,6 +22,10 @@ class EventDetailsViewModel() : ViewModel() {
         eventsRepository.addEvent(event)
     }
 
+    fun deleteEvent(event: Event) {
+        eventsRepository.deleteEvent(event)
+    }
+
     fun updateEvent(event: Event) {
         eventsRepository.updateEvent(event)
     }

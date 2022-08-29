@@ -16,6 +16,11 @@
         <item name="android:timePickerStyle">@style/MyTimePickerStyle</item>
     </style>
 
+    <style name="MyAlertDialogStyle" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="colorPrimary">?attr/colorSecondary</item>
+        <item name="colorSurface">?attr/colorPrimaryVariant</item>
+    </style>
+
     <style name="MyTimePickerStyle" parent="ThemeOverlay.MaterialComponents.TimePicker">
         <item name="android:timePickerMode">spinner</item>
         <item name="colorControlNormal">@color/pink</item>

@@ -7,5 +7,9 @@
     <string name="text">Text</string>
     <string name="my_note_text">My note</string>
     <string name="details">Details</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="delete_event_title">Event will be deleted</string>
+    <string name="confirm_delete_message">Are you sure?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_note_title">Note will be deleted</string>
 </resources>
