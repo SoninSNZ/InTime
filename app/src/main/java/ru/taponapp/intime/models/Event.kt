@@ -15,5 +15,7 @@ data class Event(@PrimaryKey(autoGenerate = true)
                  var date: String = "",
                  @ColumnInfo(name = "time")
                  var time: String = "",
+                 @ColumnInfo(name = "details")
+                 var details: String = "",
                  @ColumnInfo(name = "millis_since_epoch")
                  var timeInMillisSinceEpoch: Long = 0) : Item()

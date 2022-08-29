@@ -32,11 +32,12 @@ class EventDetailsFragment : Fragment(),
 
     private var initialID: Int? = null
     private var event: Event = Event()
-    private lateinit var titleField: EditText
+    private lateinit var titleText: EditText
     private lateinit var dateField: FrameLayout
     private lateinit var dateText: TextView
     private lateinit var timeField: FrameLayout
     private lateinit var timeText: TextView
+    private lateinit var detailsText: TextView
     private val calendar = Calendar.getInstance()
     private val fullDateFormat = SimpleDateFormat(FULL_DATE_PATTERN)
     private val shortDateFormat = SimpleDateFormat(SHORT_DATE_PATTERN)
@@ -59,16 +60,19 @@ class EventDetailsFragment : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         val eventFragmentView = inflater.inflate(R.layout.fragment_event_details, container, false)
-        titleField = eventFragmentView.findViewById(R.id.field_details_title)
+        titleText = eventFragmentView.findViewById(R.id.details_title_text)
         dateField = eventFragmentView.findViewById(R.id.event_date_field)
         dateText = eventFragmentView.findViewById(R.id.event_date_text)
         timeField = eventFragmentView.findViewById(R.id.event_time_field)
         timeText = eventFragmentView.findViewById(R.id.event_time_text)
+        detailsText = eventFragmentView.findViewById(R.id.event_details_text)
         return eventFragmentView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        dateText.hint = fullDateFormat.format(calendar.time)
+        timeText.hint = myTimeFormat.format(calendar.time)
         if (initialID != null) {
             eventDetailsViewModel.eventLiveData.observe(
                 viewLifecycleOwner,
@@ -97,7 +101,20 @@ class EventDetailsFragment : Fragment(),
             }
         }
 
-        titleField.addTextChangedListener(titleWatcher)
+        val detailsWatcher = object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                event.details = s.toString()
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+            }
+        }
+
+        titleText.addTextChangedListener(titleWatcher)
+        detailsText.addTextChangedListener(detailsWatcher)
 
         dateField.setOnClickListener {
             DatePickerFragment().apply {
@@ -150,7 +167,8 @@ class EventDetailsFragment : Fragment(),
     // Just updating string values of date and time in its fields
     // without setting it in its picker fragments
     fun updateUI() {
-        titleField.setText(event.title)
+        titleText.setText(event.title)
+        detailsText.setText(event.details)
         dateText.setText(fullDateFormat.format(event.timeInMillisSinceEpoch))
         if (event.time != "") {
             timeText.setText(event.time)

@@ -28,11 +28,11 @@ class MainScreenFragment: Fragment() {
         fun onOpenNoteDetails(id: Int?)
     }
 
+    private var callbacks: Callbacks? = null
+
     private val itemsList: MutableList<Item> = emptyList<Item>().toMutableList()
     private val eventsList: MutableList<Item> = emptyList<Item>().toMutableList()
     private val notesList: MutableList<Item> = emptyList<Item>().toMutableList()
-
-    private var callbacks: Callbacks? = null
 
     private val mainViewModel: MainViewModel by lazy {
         ViewModelProvider(this).get(MainViewModel::class.java)
@@ -41,12 +41,9 @@ class MainScreenFragment: Fragment() {
     private lateinit var mainScreenRecyclerView: RecyclerView
     private lateinit var mAdapter: MainAdapter
 
-    private lateinit var createFAB: FloatingActionButton
-    private lateinit var newEventFAB: FloatingActionButton
-    private lateinit var newNoteFAB: FloatingActionButton
-
-
-    private var isCreateBtnOpend = false
+    private lateinit var createFab: FloatingActionButton
+    private lateinit var newEventFab: FloatingActionButton
+    private lateinit var newNoteFab: FloatingActionButton
 
     private val openAnimation: Animation by lazy {
         AnimationUtils.loadAnimation(context, R.anim.rotate_open_anim)
@@ -64,6 +61,8 @@ class MainScreenFragment: Fragment() {
         AnimationUtils.loadAnimation(context, R.anim.hide_btns_anim)
     }
 
+    private var isCreateFabOpened = false
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callbacks = context as Callbacks?
@@ -78,9 +77,9 @@ class MainScreenFragment: Fragment() {
         val mainFragmentView = inflater.inflate(R.layout.fragment_main_screen, container, false)
         val layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        createFAB = mainFragmentView.findViewById(R.id.create_btn)
-        newEventFAB = mainFragmentView.findViewById(R.id.new_event_btn)
-        newNoteFAB = mainFragmentView.findViewById(R.id.new_note_btn)
+        createFab = mainFragmentView.findViewById(R.id.create_btn)
+        newEventFab = mainFragmentView.findViewById(R.id.new_event_btn)
+        newNoteFab = mainFragmentView.findViewById(R.id.new_note_btn)
 
         mainScreenRecyclerView = mainFragmentView.findViewById(R.id.main_recycler_view)
         mainScreenRecyclerView.layoutManager = layoutManager
@@ -92,9 +91,9 @@ class MainScreenFragment: Fragment() {
             mainViewModel.deleteNotes()
         }
 
-        isCreateBtnOpend = false
-        newEventFAB.visibility = View.GONE
-        newNoteFAB.visibility = View.GONE
+        isCreateFabOpened = false
+        newEventFab.visibility = View.GONE
+        newNoteFab.visibility = View.GONE
 
         return mainFragmentView
     }
@@ -121,17 +120,17 @@ class MainScreenFragment: Fragment() {
             }
         )
 
-        createFAB.setOnClickListener {
+        createFab.setOnClickListener {
             setAnimation()
             setVisibility()
-            isCreateBtnOpend = !isCreateBtnOpend
+            isCreateFabOpened = !isCreateFabOpened
         }
 
-        newEventFAB.setOnClickListener {
+        newEventFab.setOnClickListener {
             callbacks?.onOpenEventDetails(null)
         }
 
-        newNoteFAB.setOnClickListener {
+        newNoteFab.setOnClickListener {
             callbacks?.onOpenNoteDetails(null)
         }
     }
@@ -160,25 +159,25 @@ class MainScreenFragment: Fragment() {
     }
 
     private fun setAnimation() {
-        if (isCreateBtnOpend == false) {
-            createFAB.startAnimation(openAnimation)
-            newEventFAB.startAnimation(showButtonAnimation)
-            newNoteFAB.startAnimation(showButtonAnimation)
+        if (isCreateFabOpened == false) {
+            createFab.startAnimation(openAnimation)
+            newEventFab.startAnimation(showButtonAnimation)
+            newNoteFab.startAnimation(showButtonAnimation)
         } else {
-            createFAB.startAnimation(closeAnimation)
-            newEventFAB.startAnimation(hideButtonAnimation)
-            newNoteFAB.startAnimation(hideButtonAnimation)
+            createFab.startAnimation(closeAnimation)
+            newEventFab.startAnimation(hideButtonAnimation)
+            newNoteFab.startAnimation(hideButtonAnimation)
         }
     }
 
     private fun setVisibility() {
-        if (isCreateBtnOpend == false) {
-            newEventFAB.visibility = View.VISIBLE
-            newNoteFAB.visibility = View.VISIBLE
+        if (isCreateFabOpened == false) {
+            newEventFab.visibility = View.VISIBLE
+            newNoteFab.visibility = View.VISIBLE
 
         } else {
-            newEventFAB.visibility = View.GONE
-            newNoteFAB.visibility = View.GONE
+            newEventFab.visibility = View.GONE
+            newNoteFab.visibility = View.GONE
         }
     }
 

@@ -40,7 +40,7 @@ class NoteDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val noteDetailsView = inflater.inflate(R.layout.fragment_note_details, container, false)
-        noteTitle = noteDetailsView.findViewById(R.id.field_details_title)
+        noteTitle = noteDetailsView.findViewById(R.id.details_title_text)
         noteText = noteDetailsView.findViewById(R.id.field_note_text)
         return noteDetailsView
     }
