@@ -12,4 +12,10 @@
     <string name="no">Нет</string>
     <string name="delete_note_title">Note will be deleted</string>
     <string name="confirm_delete_message">Вы уверены?</string>
+    <string name="list">Список</string>
+    <string name="places">Места</string>
+    <string name="settings">Настройки</string>
+    <string name="save">Сохранить</string>
+    <string name="cancel">Отменить</string>
+    <string name="delete">Удалить</string>
 </resources>

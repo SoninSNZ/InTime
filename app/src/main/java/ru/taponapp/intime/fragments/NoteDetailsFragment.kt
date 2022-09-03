@@ -10,6 +10,7 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.taponapp.intime.R
@@ -24,7 +25,8 @@ class NoteDetailsFragment: Fragment() {
     private var initialId: Int? = null
     private lateinit var noteTitle: EditText
     private lateinit var noteText: EditText
-    private lateinit var deleteNoteFab: FloatingActionButton
+    private lateinit var saveNoteBtn: MaterialButton
+    private lateinit var deleteNoteBtn: MaterialButton
     private val noteDetailsViewModel: NoteDetailsViewModel by lazy {
         ViewModelProvider(this).get(NoteDetailsViewModel::class.java)
     }
@@ -45,21 +47,18 @@ class NoteDetailsFragment: Fragment() {
         val noteDetailsView = inflater.inflate(R.layout.fragment_note_details, container, false)
         noteTitle = noteDetailsView.findViewById(R.id.details_title_text)
         noteText = noteDetailsView.findViewById(R.id.field_note_text)
-        deleteNoteFab = noteDetailsView.findViewById(R.id.delete_note_fab)
+        saveNoteBtn = noteDetailsView.findViewById(R.id.save_note_btn)
+        deleteNoteBtn = noteDetailsView.findViewById(R.id.delete_note_btn)
         return noteDetailsView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         if (initialId != null) {
-            noteDetailsViewModel.noteLiveData.observe(
-                viewLifecycleOwner,
-                Observer { note ->
-                    note.let {
-                        this.note = note
-                        updateUI()
-                    }
-                })
+            noteDetailsViewModel.noteLiveData.observe(viewLifecycleOwner, Observer { note ->
+                this.note = note
+                updateUI()
+            })
         }
     }
 
@@ -93,7 +92,18 @@ class NoteDetailsFragment: Fragment() {
         noteTitle.addTextChangedListener(noteTitleWatcher)
         noteText.addTextChangedListener(noteTextWatcher)
 
-        deleteNoteFab.setOnClickListener {
+        saveNoteBtn.setOnClickListener {
+            if ((note.title != "") or (note.text != "")) {
+                if (initialId != null) {
+                    noteDetailsViewModel.updateNote(note)
+                } else {
+                    noteDetailsViewModel.addNote(note)
+                }
+                parentFragmentManager.popBackStack()
+            }
+        }
+
+        deleteNoteBtn.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext(),R.style.MyAlertDialogStyle).apply {
                 setTitle(R.string.delete_note_title)
                 setMessage(R.string.confirm_delete_message)
@@ -111,13 +121,6 @@ class NoteDetailsFragment: Fragment() {
 
     override fun onDestroy() {
         super.onDestroy()
-        if ((note.title != "") or (note.text != "")) {
-            if (initialId != null) {
-                noteDetailsViewModel.updateNote(note)
-            } else {
-                noteDetailsViewModel.addNote(note)
-            }
-        }
     }
 
     fun updateUI() {

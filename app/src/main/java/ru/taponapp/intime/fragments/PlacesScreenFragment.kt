@@ -4,4 +4,11 @@ import androidx.fragment.app.Fragment
 
 class PlacesScreenFragment : Fragment() {
 
+
+    companion object {
+        fun newInstance() : PlacesScreenFragment {
+            return PlacesScreenFragment()
+        }
+    }
+
 }
