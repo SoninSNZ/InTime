@@ -4,31 +4,41 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/calendar.xml" value="0.38125" />
+        <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_delete.xml" value="0.38125" />
+        <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_done.xml" value="0.38125" />
+        <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_expend.xml" value="0.38125" />
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_new_event.xml" value="0.38125" />
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_testAdd.xml" value="0.37538461538461537" />
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/ic_test_add.xml" value="0.31574074074074077" />
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/selector.xml" value="0.29583333333333334" />
         <entry key="..\:/Android/InTime/app/src/main/res/drawable/time.xml" value="0.38125" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/activity_main.xml" value="0.33" />
-        <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_event.xml" value="0.3651041666666667" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_event.xml" value="0.33" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_event_header.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_favorite.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_favorite_header.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_note.xml" value="0.33" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_note_header.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_todo.xml" value="0.33" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/cell_todo_header.xml" value="0.26944444444444443" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/event_details_date_field.xml" value="0.5" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/event_details_time_field.xml" value="0.5" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/event_item.xml" value="0.4452261306532663" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/favorite_item.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/field_date_pick.xml" value="0.33" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/field_details.xml" value="0.33" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/field_event_details_date.xml" value="0.29791666666666666" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/field_event_details_time.xml" value="0.29791666666666666" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/field_text.xml" value="0.5" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/field_time_pick.xml" value="0.33" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/field_title.xml" value="0.33" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_blank.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_event.xml" value="0.33" />
-        <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_event_details.xml" value="0.33" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_event_details.xml" value="0.5" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_main.xml" value="0.33" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_main_screen.xml" value="0.33" />
-        <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_note_details.xml" value="0.33" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_note_details.xml" value="0.25" />
+        <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_places_screen.xml" value="0.3651041666666667" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_search.xml" value="0.271875" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/fragment_settings.xml" value="0.271875" />
         <entry key="..\:/Android/InTime/app/src/main/res/layout/header_event_item.xml" value="0.33" />

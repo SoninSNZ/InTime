@@ -17,7 +17,7 @@
     </style>
 
     <style name="MyAlertDialogStyle" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
-        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorPrimary">@color/pink</item>
     </style>
 
     <style name="MyTimePickerStyle" parent="ThemeOverlay.MaterialComponents.TimePicker">
@@ -28,10 +28,20 @@
     </style>
 
     <style name="MyDatePickerStyle" parent="ThemeOverlay.MaterialComponents.MaterialCalendar">
-        <item name="android:textColorPrimary">@color/black</item>
-        <item name="android:textColorSecondary">@color/pink</item>
         <item name="colorPrimary">@color/pink</item>
-        <item name="colorAccent">@color/pink</item>
+        <item name="colorOnPrimary">@color/white</item>
         <item name="colorSurface">@color/white</item>
     </style>
+
+    <style name="MyTextInputLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="hintTextAppearance">@style/TextAppearance.AppCompat.Subhead</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
+        <item name="boxStrokeColor">@color/black</item>
+        <item name="boxStrokeErrorColor">@color/red</item>
+        <item name="hintTextColor">@color/pink</item>
+    </style>
+
 </resources>

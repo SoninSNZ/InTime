@@ -3,6 +3,7 @@ package ru.taponapp.intime.fragments
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +12,14 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import ru.taponapp.intime.R
 import ru.taponapp.intime.adapters.MainAdapter
 import ru.taponapp.intime.databinding.FragmentMainScreenBinding
 import ru.taponapp.intime.models.*
+
+private const val TAG = "MainScreenFragment"
 
 class MainScreenFragment: Fragment() {
 
@@ -32,10 +36,6 @@ class MainScreenFragment: Fragment() {
     private val mainViewModel: MainViewModel by viewModels()
 
     private var myAdapter: MainAdapter? = null
-
-    private val itemsList: MutableList<Item> = emptyList<Item>().toMutableList()
-    private val eventsList: MutableList<Item> = emptyList<Event>().toMutableList()
-    private val notesList: MutableList<Item> = emptyList<Note>().toMutableList()
 
     private var isCreateFabOpened = false
 
@@ -68,6 +68,7 @@ class MainScreenFragment: Fragment() {
     ): View {
         _binding = FragmentMainScreenBinding.inflate(inflater, container, false)
 
+        val itemsList = mainViewModel.itemsList
         myAdapter = MainAdapter(itemsList)
 
         binding.mainRecyclerView.apply {
@@ -76,32 +77,37 @@ class MainScreenFragment: Fragment() {
         }
 
         isCreateFabOpened = false
-        setVisibility()
+        setButtonsVisibility()
 
         return binding.root
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         mainViewModel.eventsListLiveData.observe(viewLifecycleOwner, { events ->
-                eventsList.clear()
-                eventsList.addAll(events)
-                updateItemsList()
+            if (!mainViewModel.eventsList.equals(events)) {
+                mainViewModel.eventsList.clear()
+                mainViewModel.eventsList.addAll(events)
+                mainViewModel.updateItemsList()
+                binding.mainRecyclerView.adapter?.notifyDataSetChanged()
             }
-        )
+        })
 
         mainViewModel.notesListLiveData.observe(viewLifecycleOwner, { notes ->
-                notesList.clear()
-                notesList.addAll(notes)
-                updateItemsList()
+            if (!mainViewModel.notesList.equals(notes)) {
+                mainViewModel.notesList.clear()
+                mainViewModel.notesList.addAll(notes)
+                mainViewModel.updateItemsList()
+                binding.mainRecyclerView.adapter?.notifyDataSetChanged()
             }
-        )
+        })
 
         binding.createFab.setOnClickListener {
             isCreateFabOpened = !isCreateFabOpened
-            setAnimation()
-            setVisibility()
+            showButtonsAnimation()
+            setButtonsVisibility()
         }
 
         binding.newEventFab.setOnClickListener {
@@ -124,22 +130,7 @@ class MainScreenFragment: Fragment() {
         callbacks = null
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    private fun updateItemsList() {
-        itemsList.clear()
-        if (eventsList.isNotEmpty()) {
-            itemsList.add(EventsHeader())
-            itemsList.addAll(eventsList)
-        }
-        if (notesList.isNotEmpty()) {
-            itemsList.add(NotesHeader())
-            itemsList.addAll(notesList)
-        }
-
-        binding.mainRecyclerView.adapter?.notifyDataSetChanged()
-    }
-
-    private fun setAnimation() {
+    private fun showButtonsAnimation() {
         if (isCreateFabOpened == true) {
             binding.apply {
                 createFab.startAnimation(openAnimation)
@@ -155,7 +146,7 @@ class MainScreenFragment: Fragment() {
         }
     }
 
-    private fun setVisibility() {
+    private fun setButtonsVisibility() {
         if (isCreateFabOpened == true) {
             binding.apply {
                 newEventFab.isVisible = true

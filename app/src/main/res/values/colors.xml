@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="pink">#E60768</color>
-    <color name="pink_light">#F44893</color>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <color name="pink_dark">#E60768</color>
+    <color name="pink">#F1267E</color>
     <color name="purple_200">#FFBB86FC</color>
     <color name="purple_500">#FF6200EE</color>
+    <color name="green_dark">#01444A</color>
+    <color name="red">#B1052E</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="yellow">#FBC55C</color>
     <color name="yellow_light">#FFE1A7</color>
@@ -13,5 +15,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="grey_light">#F3F3F3</color>
     <color name="grey">#888888</color>
-    <color name="grey_dark">#4A4A4A</color>
+    <color name="grey_dark">#3F3F3F</color>
+    <color name="mtrl_textinput_default_box_stroke_color"
+        tools:override="true">@color/grey_dark</color>
 </resources>

@@ -1,59 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.google.android.material.card.MaterialCardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:layout_marginHorizontal="16dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
     android:layout_marginVertical="4dp"
-    app:cardElevation="8dp"
+    app:cardElevation="1dp"
     app:cardCornerRadius="12dp"
     app:strokeWidth="1dp"
     app:strokeColor="@color/grey"
-    app:cardBackgroundColor="?attr/colorPrimary">
+    app:cardBackgroundColor="@color/green_dark">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="12dp"
+        android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/event_title"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:text="@string/title"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_weight="1"
+            android:paddingEnd="12dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cell_event_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title of the event"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/cell_event_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="16 September"
+                    android:textSize="16sp"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/cell_event_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="18:40"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    tools:ignore="TextContrastCheck" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/cell_event_details"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="This block is for event details."
+                android:textColor="@color/white"
+                android:textSize="13sp"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            app:dividerColor="@color/grey" />
+
 
         <LinearLayout
             android:layout_width="60dp"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:gravity="center">
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/event_time"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:id="@+id/expand_event_btn"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Time"
-                android:textSize="20sp"
-                android:textColor="@color/black" />
+                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_expend"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
 
-            <TextView
-                android:id="@+id/event_date"
-                android:layout_width="wrap_content"
+            <ImageButton
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Date"
-                android:textSize="15sp"
-                android:textColor="@color/black" />
+                android:layout_weight="1"
+                android:layout_marginBottom="12dp"
+
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_done"
+                app:tint="@color/white"
+                tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_del"
+                app:tint="@color/white"
+                tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
+
         </LinearLayout>
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </com.google.android.material.card.MaterialCardView>

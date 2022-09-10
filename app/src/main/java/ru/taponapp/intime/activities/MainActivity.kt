@@ -23,18 +23,18 @@ class MainActivity :
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
         hideBottomNavigation()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container, MainScreenFragment.newInstance())
+                .addToBackStack("msf")
                 .commit()
 
             showBottomNavigation()
         }
 
-        supportFragmentManager.addOnBackStackChangedListener {
+        supportFragmentManager.addOnBackStackChangedListener() {
             when (supportFragmentManager.findFragmentById(R.id.fragment_container)) {
                 is MainScreenFragment -> showBottomNavigation()
                 is PlacesScreenFragment -> showBottomNavigation()
@@ -50,12 +50,20 @@ class MainActivity :
 
         binding.bottomNavigation.setOnItemSelectedListener {
             when (it.itemId) {
-                R.id.main_screen_menu_item -> replaceFragment(MainScreenFragment.newInstance())
-                R.id.places_screen_menu_item -> replaceFragment(PlacesScreenFragment.newInstance())
-                R.id.settings_screen_menu_item -> replaceFragment(SettingsScreenFragment.newInstance())
+                R.id.main_screen_menu_item -> {
+                    replaceFragment(MainScreenFragment.newInstance())
+                }
+                R.id.places_screen_menu_item -> {
+                    replaceFragment(PlacesScreenFragment.newInstance())
+                }
+                R.id.settings_screen_menu_item -> {
+                    replaceFragment(SettingsScreenFragment.newInstance())
+                }
             }
             true
         }
+
+        binding.bottomNavigation.setOnItemReselectedListener { }
     }
 
     override fun onOpenEventDetails(eventId: Int?) {
@@ -76,11 +84,11 @@ class MainActivity :
         onOpenNoteDetails(id)
     }
 
-    private fun hideBottomNavigation() {
+    fun hideBottomNavigation() {
         binding.bottomNavigation.isVisible = false
     }
 
-    private fun showBottomNavigation() {
+     fun showBottomNavigation() {
         binding.bottomNavigation.isVisible = true
     }
 

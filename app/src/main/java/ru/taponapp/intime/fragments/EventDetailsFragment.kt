@@ -1,61 +1,53 @@
 package ru.taponapp.intime.fragments
 
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.FrameLayout
-import android.widget.TextView
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import com.google.android.material.button.MaterialButton
+import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import ru.taponapp.intime.R
+import ru.taponapp.intime.activities.MainActivity
+import ru.taponapp.intime.databinding.FragmentEventDetailsBinding
 import ru.taponapp.intime.models.Event
 import ru.taponapp.intime.models.EventDetailsViewModel
-//import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 private const val EVENT_ID = "event_id"
-private const val DIALOG_DATE = "DialogDate"
-private const val DIALOG_TIME = "DialogTime"
-private const val REQUEST_DATE = 0
-private const val REQUEST_TIME = 1
 private const val FULL_DATE_PATTERN = "dd.MM.yy"
-private const val SHORT_DATE_PATTERN = "d MMM"
+private const val SHORT_DATE_PATTERN = "d MMMM"
 private const val TIME_PATTERN = "HH:mm"
 
-class EventDetailsFragment : Fragment(),
-    DatePickerFragment.Callbacks, TimePickerFragment.Callbacks {
+class EventDetailsFragment : Fragment() {
 
     private var event: Event = Event()
     private var initialID: Int? = null
-    private lateinit var titleText: EditText
-    private lateinit var dateField: FrameLayout
-    private lateinit var dateText: TextView
-    private lateinit var timeField: FrameLayout
-    private lateinit var timeText: TextView
-    private lateinit var detailsText: TextView
-    private lateinit var saveEventBtn: MaterialButton
-    private lateinit var deleteEventBtn: MaterialButton
+
+    private var _binding: FragmentEventDetailsBinding? = null
+    private val binding get() = _binding!!
+
     private val calendar = Calendar.getInstance()
     private val fullDateFormat = SimpleDateFormat(FULL_DATE_PATTERN, Locale.getDefault())
     private val shortDateFormat = SimpleDateFormat(SHORT_DATE_PATTERN, Locale.getDefault())
     private val myTimeFormat = SimpleDateFormat(TIME_PATTERN, Locale.getDefault())
-    private val eventDetailsViewModel: EventDetailsViewModel by lazy {
-        ViewModelProvider(this).get(EventDetailsViewModel::class.java)
-    }
+
+    private val eventDetailsViewModel: EventDetailsViewModel by viewModels()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initialID = arguments?.getSerializable(EVENT_ID) as Int?
+
         if (initialID != null) {
-            eventDetailsViewModel.loadEvent(initialID)
+            eventDetailsViewModel.loadEvent(initialID!!)
         }
     }
 
@@ -63,29 +55,21 @@ class EventDetailsFragment : Fragment(),
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        val eventFragmentView = inflater.inflate(R.layout.fragment_event_details, container, false)
-
-        titleText = eventFragmentView.findViewById(R.id.details_title_text)
-        dateField = eventFragmentView.findViewById(R.id.event_date_field)
-        dateText = eventFragmentView.findViewById(R.id.event_date_text)
-        timeField = eventFragmentView.findViewById(R.id.event_time_field)
-        timeText = eventFragmentView.findViewById(R.id.event_time_text)
-        detailsText = eventFragmentView.findViewById(R.id.event_details_text)
-        saveEventBtn = eventFragmentView.findViewById(R.id.save_event_btn)
-        deleteEventBtn = eventFragmentView.findViewById(R.id.delete_event_btn)
-
-        return eventFragmentView
+    ): View {
+        _binding = FragmentEventDetailsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        dateText.hint = fullDateFormat.format(calendar.time)
-        timeText.hint = myTimeFormat.format(calendar.time)
+
+        binding.dateText.hint = fullDateFormat.format(calendar.timeInMillis)
+        binding.timeText.hint = myTimeFormat.format(calendar.timeInMillis)
+
 
         if (initialID != null) {
-            eventDetailsViewModel.eventLiveData.observe(viewLifecycleOwner, Observer { event ->
+            eventDetailsViewModel.eventLiveData.observe(viewLifecycleOwner, { event ->
                 this.event = event
                 calendar.timeInMillis = event.timeInMillisSinceEpoch
                 updateUI()
@@ -96,48 +80,23 @@ class EventDetailsFragment : Fragment(),
     override fun onStart() {
         super.onStart()
 
-        val titleWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                event.title = s.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
+        binding.titleText.addTextChangedListener {
+            event.title = it.toString()
         }
 
-        val detailsWatcher = object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                event.details = s.toString()
-            }
-
-            override fun afterTextChanged(s: Editable?) {
-            }
+        binding.detailsField.eventDetailsText.addTextChangedListener {
+            event.details = it.toString()
         }
 
-        titleText.addTextChangedListener(titleWatcher)
-        detailsText.addTextChangedListener(detailsWatcher)
-
-        dateField.setOnClickListener {
-            DatePickerFragment().apply {
-                setTargetFragment(this@EventDetailsFragment, REQUEST_DATE)
-                show(this@EventDetailsFragment.parentFragmentManager, DIALOG_DATE)
-            }
+        binding.dateField.setOnClickListener {
+            showDatePicker()
         }
 
-        timeField.setOnClickListener {
-            TimePickerFragment().apply {
-                setTargetFragment(this@EventDetailsFragment, REQUEST_TIME)
-                    show(this@EventDetailsFragment.parentFragmentManager, DIALOG_TIME)
-            }
+        binding.timeField.setOnClickListener {
+            showTimePicker()
         }
 
-        saveEventBtn.setOnClickListener {
+        binding.saveEventBtn.setOnClickListener {
             if (event.title != "") {
                 event.timeInMillisSinceEpoch = calendar.timeInMillis
                 if (initialID == null) {
@@ -149,15 +108,15 @@ class EventDetailsFragment : Fragment(),
             }
         }
 
-        deleteEventBtn.setOnClickListener {
+        binding.deleteEventBtn.setOnClickListener {
             MaterialAlertDialogBuilder(requireContext(), R.style.MyAlertDialogStyle).apply {
                 setTitle(R.string.delete_event_title)
                 setMessage(R.string.confirm_delete_message)
-                setPositiveButton(R.string.yes) { dialog, which ->
+                setPositiveButton(R.string.yes) { _, _ ->
                     eventDetailsViewModel.deleteEvent(event)
                     parentFragmentManager.popBackStack()
                 }
-                setNegativeButton(R.string.no) { dialog, which ->
+                setNegativeButton(R.string.no) { dialog, _ ->
                     dialog.cancel()
                 }
                 show()
@@ -165,47 +124,68 @@ class EventDetailsFragment : Fragment(),
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
-    override fun onDetach() {
-        super.onDetach()
+    private fun showDatePicker() {
+
+        val listener = DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            calendar.set(Calendar.YEAR, year)
+            calendar.set(Calendar.MONTH, month)
+            calendar.set(Calendar.DAY_OF_MONTH, day)
+
+            binding.dateText.text = fullDateFormat.format(calendar.timeInMillis)
+
+//            // With russian system language date looks like "1 сент." instead of "1 Сен"
+//            val shortDate: String = shortDateFormat.format(calendar.timeInMillis)
+//            event.date = shortDate.substringBefore(" ") + " " +
+//                    shortDate.substringAfter(" ").take(3).capitalize()
+            // With russian system language date looks like "1 сент." instead of "1 Сен"
+            event.date = shortDateFormat.format(calendar.timeInMillis)
+        }
+
+        DatePickerDialog(
+            requireContext(),
+            R.style.MyDatePickerStyle,
+            listener,
+            calendar.get(Calendar.YEAR),
+            calendar.get(Calendar.MONTH),
+            calendar.get(Calendar.DAY_OF_MONTH)
+        ).show()
     }
 
-    override fun onDateSelected(date: Calendar) {
-        val shortDate: String = shortDateFormat.format(date.time)
+    private fun showTimePicker() {
 
-        dateText.setText(fullDateFormat.format(date.time))
+        val listener = TimePickerDialog.OnTimeSetListener { _, hour, minute ->
+            calendar.set(Calendar.HOUR_OF_DAY, hour)
+            calendar.set(Calendar.MINUTE, minute)
 
-        // With russian system language date looks like 1 сент. instead of 1 Сен
-        event.date = shortDate.substringBefore(" ") + " " +
-                shortDate.substringAfter(" ").take(3).capitalize()
+            event.time = myTimeFormat.format(calendar.time)
+            binding.timeText.text = myTimeFormat.format(calendar.time)
+        }
 
-        calendar.set(Calendar.YEAR, date.get(Calendar.YEAR))
-        calendar.set(Calendar.MONTH, date.get(Calendar.MONTH))
-        calendar.set(Calendar.DAY_OF_MONTH, date.get(Calendar.DAY_OF_MONTH))
-    }
-
-    override fun onTimeSelected(time: Calendar) {
-        val timeStringValue = myTimeFormat.format(time.time)
-        timeText.setText(timeStringValue)
-        event.time = timeStringValue
-        calendar.set(Calendar.HOUR_OF_DAY, time.get(Calendar.HOUR_OF_DAY))
-        calendar.set(Calendar.MINUTE, time.get(Calendar.MINUTE))
+        TimePickerDialog(
+            requireContext(),
+            R.style.MyTimePickerStyle,
+            listener,
+            calendar.get(Calendar.HOUR_OF_DAY),
+            calendar.get(Calendar.MINUTE),
+            true
+        ).show()
     }
 
     // Just updating string values of date and time in its fields
     // without setting it in its picker fragments
-    fun updateUI() {
-        titleText.setText(event.title)
-        detailsText.setText(event.details)
-        dateText.setText(fullDateFormat.format(event.timeInMillisSinceEpoch))
+    private fun updateUI() {
+        binding.titleText.setText(event.title)
+        binding.detailsField.eventDetailsText.setText(event.details)
+        binding.dateText.text = fullDateFormat.format(event.timeInMillisSinceEpoch)
         if (event.time != "") {
-            timeText.setText(event.time)
+            binding.timeText.text = event.time
         }
     }
-
 
     companion object {
         fun newInstance(eventID: Int?) : EventDetailsFragment {

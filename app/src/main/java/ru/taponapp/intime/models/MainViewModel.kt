@@ -1,5 +1,6 @@
 package ru.taponapp.intime.models
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import ru.taponapp.intime.repositories.EventsRepository
 import ru.taponapp.intime.repositories.NotesRepository
@@ -12,12 +13,16 @@ class MainViewModel : ViewModel() {
     val eventsListLiveData = eventsRepository.getEvents()
     val notesListLiveData = notesRepository.getNotes()
 
-    fun deleteEvents() {
-        eventsRepository.deleteEvents()
-    }
+    val eventsList: MutableList<Item> = mutableListOf()
+    val notesList: MutableList<Item> = mutableListOf()
 
-    fun deleteNotes() {
-        notesRepository.deleteNotes()
+    val itemsList: MutableList<Item> = mutableListOf()
+
+
+    fun updateItemsList() {
+        itemsList.clear()
+        itemsList.addAll(eventsList)
+        itemsList.addAll(notesList)
     }
 
     override fun onCleared() {

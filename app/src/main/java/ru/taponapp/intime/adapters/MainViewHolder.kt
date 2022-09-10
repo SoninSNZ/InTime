@@ -13,25 +13,23 @@ import java.util.*
 
 class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-    private var item: Item = Item()
     private val calendar = Calendar.getInstance()
-    private val currentDate = SimpleDateFormat("d MMM").format(calendar.time)
-    private val eventTitle: TextView? = itemView.findViewById(R.id.event_title)
-    private val eventDate: TextView? = itemView.findViewById(R.id.event_date)
-    private val eventTime: TextView? = itemView.findViewById(R.id.event_time)
+    private val currentDate = SimpleDateFormat("d MMM", Locale.getDefault()).format(calendar.time)
+    private val eventTitle: TextView? = itemView.findViewById(R.id.cell_event_title)
+    private val eventDate: TextView? = itemView.findViewById(R.id.cell_event_date)
+    private val eventTime: TextView? = itemView.findViewById(R.id.cell_event_time)
     private val noteTitle: TextView? = itemView.findViewById(R.id.note_title)
     private val noteText: TextView? = itemView.findViewById(R.id.note_text)
     private val noteDivider: MaterialDivider? = itemView.findViewById(R.id.note_divider)
 
     fun bind(item: Item) {
-        this.item = item
         when (item) {
             is Event -> setupEventView(item)
             is Note -> setupNoteView(item)
         }
     }
 
-    fun setupEventView(event: Event) {
+    private fun setupEventView(event: Event) {
         eventTitle?.setText(event.title)
         eventDate?.setText(event.date)
 
@@ -47,7 +45,7 @@ class MainViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         }
     }
 
-    fun setupNoteView(note: Note) {
+    private fun setupNoteView(note: Note) {
         noteTitle?.setText(note.title)
         noteText?.setText(note.text)
 

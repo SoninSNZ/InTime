@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import ru.taponapp.intime.R
 import ru.taponapp.intime.models.Note
 import ru.taponapp.intime.models.NoteDetailsViewModel
@@ -45,7 +44,7 @@ class NoteDetailsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val noteDetailsView = inflater.inflate(R.layout.fragment_note_details, container, false)
-        noteTitle = noteDetailsView.findViewById(R.id.details_title_text)
+        noteTitle = noteDetailsView.findViewById(R.id.event_details_title_text)
         noteText = noteDetailsView.findViewById(R.id.field_note_text)
         saveNoteBtn = noteDetailsView.findViewById(R.id.save_note_btn)
         deleteNoteBtn = noteDetailsView.findViewById(R.id.delete_note_btn)

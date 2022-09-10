@@ -14,7 +14,7 @@ class EventDetailsViewModel() : ViewModel() {
         eventsRepository.getEvent(eventID)
     }
 
-    fun loadEvent(id: Int?) {
+    fun loadEvent(id: Int) {
         eventIdLiveData.value = id
     }
 
